@@ -1,10 +1,13 @@
-const common = require('./webpack.common');
-const path = require('path');
-const glob = require('glob');
+const common = require('./webpack.common.js');
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const path = require('path');
+const glob = require('glob');
 const { PurgeCSSPlugin } = require('purgecss-webpack-plugin');
+const PATHS = {
+	src: path.join(__dirname, 'src'),
+};
 
 module.exports = merge(common, {
 	mode: 'production',
@@ -14,15 +17,13 @@ module.exports = merge(common, {
 	optimization: {
 		minimize: true,
 		minimizer: [
-			'...',
+			`...`,
 			new CssMinimizerPlugin({
 				minimizerOptions: {
 					preset: [
 						'default',
 						{
-							discardComments: {
-								removeAll: true,
-							},
+							discardComments: { removeAll: true },
 						},
 					],
 				},
@@ -31,18 +32,16 @@ module.exports = merge(common, {
 	},
 	module: {
 		rules: [
-			// Css loading
 			{
 				test: /\.css$/,
 				exclude: /\.module\.css$/,
 				use: [MiniCssExtractPlugin.loader, 'css-loader'],
 			},
-			// Css modules loading
 			{
 				test: /\.css$/,
 				include: /\.module\.css$/,
 				use: [
-					MiniCssExtractPlugin.loader,
+					'style-loader',
 					{
 						loader: 'css-loader',
 						options: {
@@ -53,12 +52,10 @@ module.exports = merge(common, {
 					},
 				],
 			},
-			// Less loading
 			{
 				test: /\.less$/,
 				use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader'],
 			},
-			// Sass loading
 			{
 				test: /\.scss$/,
 				use: [
@@ -75,9 +72,7 @@ module.exports = merge(common, {
 			filename: 'css/[name].[contenthash:12].css',
 		}),
 		new PurgeCSSPlugin({
-			paths: glob.sync(`${path.join(__dirname, '../src/')}/**/*`, {
-				nodir: true,
-			}),
+			paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
 		}),
 	],
 });

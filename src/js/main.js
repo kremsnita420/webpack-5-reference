@@ -1,5 +1,5 @@
 import '../styles/vendors.scss';
-import '../styles/index.scss';
+import '../styles/main.scss';
 
 import {
 	onLoadEventHandler,
@@ -22,5 +22,3 @@ document.addEventListener('click', function (event) {
 		toggleTodoEventListener(event);
 	}
 });
-
-// console.log('Test');
