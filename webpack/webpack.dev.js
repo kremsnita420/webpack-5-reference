@@ -24,11 +24,13 @@ module.exports = merge(common, {
 	},
 	module: {
 		rules: [
+			// CSS loader
 			{
 				test: /\.css$/,
 				exclude: /\.module\.css$/,
 				use: ['style-loader', 'css-loader'],
 			},
+			// CSS modules loader
 			{
 				test: /\.css$/,
 				include: /\.module\.css$/,
@@ -44,13 +46,29 @@ module.exports = merge(common, {
 					},
 				],
 			},
+			// CSS less loader
 			{
 				test: /\.less$/,
 				use: ['style-loader', 'css-loader', 'less-loader'],
 			},
+			// SCSS loader
 			{
 				test: /\.scss$/,
 				use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+			},
+			// Images file loader
+			{
+				test: /\.(png|jpg|svg)$/,
+				type: 'asset',
+				parser: {
+					dataUrlCondition: {
+						// If the size of asset is less tha 10kb make it inline
+						maxSize: 10 * 1024,
+					},
+				},
+				generator: {
+					filename: './images/[name][ext]',
+				},
 			},
 		],
 	},
