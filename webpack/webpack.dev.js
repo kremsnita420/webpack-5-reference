@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = merge(common, {
 	mode: 'development',
 	output: {
-		filename: 'js/[name].js',
+		filename: 'js/[name].[contenthash:12].js',
 	},
 	devServer: {
 		port: 9000,
