@@ -50,6 +50,11 @@ module.exports = merge(common, {
 					},
 				],
 			},
+			// Less loading
+			{
+				test: /\.less$/,
+				use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader'],
+			},
 		],
 	},
 	plugins: [

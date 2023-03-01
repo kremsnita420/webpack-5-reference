@@ -45,6 +45,11 @@ module.exports = merge(common, {
 					},
 				],
 			},
+			// Less loading
+			{
+				test: /\.less$/,
+				use: ['style-loader', 'css-loader', 'less-loader'],
+			},
 		],
 	},
 });
