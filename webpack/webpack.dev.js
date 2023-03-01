@@ -1,11 +1,12 @@
 const common = require('./webpack.common.js');
 const { merge } = require('webpack-merge');
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(common, {
 	mode: 'development',
 	output: {
-		filename: 'bundle.js',
+		filename: 'js/[name].js',
 	},
 	devServer: {
 		port: 9000,
@@ -23,13 +24,11 @@ module.exports = merge(common, {
 	},
 	module: {
 		rules: [
-			// Css loading
 			{
 				test: /\.css$/,
 				exclude: /\.module\.css$/,
 				use: ['style-loader', 'css-loader'],
 			},
-			// Css modules loading
 			{
 				test: /\.css$/,
 				include: /\.module\.css$/,
@@ -45,16 +44,19 @@ module.exports = merge(common, {
 					},
 				],
 			},
-			// Less loading
 			{
 				test: /\.less$/,
 				use: ['style-loader', 'css-loader', 'less-loader'],
 			},
-			// Sass loading
 			{
 				test: /\.scss$/,
-				use: ['style-loader', 'css-loader', 'sass-loader'],
+				use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
 			},
 		],
 	},
+	plugins: [
+		new MiniCssExtractPlugin({
+			filename: 'css/[name].[contenthash:12].css',
+		}),
+	],
 });

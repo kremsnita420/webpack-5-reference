@@ -1,15 +1,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const config = {
-	entry: './src/js/index.js',
+	entry: './src/js/main.js',
 	output: {
 		path: path.resolve(__dirname, '../dist'),
-		clean: true,
+		//clean: true,
 	},
 	module: {
-		// Generating html file
 		rules: [
 			{
 				test: /\.html$/,
@@ -26,12 +25,12 @@ const config = {
 			filename: 'index.html',
 			template: 'src/template.html',
 		}),
-		// new CleanWebpackPlugin({
-		// 	cleanOnceBeforeBuildPatterns: [
-		// 		'**/*',
-		// 		path.join(process.cwd(), 'build/**/*'),
-		// 	],
-		// }),
+		new CleanWebpackPlugin({
+			cleanOnceBeforeBuildPatterns: [
+				'**/*',
+				path.join(process.cwd(), 'build/**/*'),
+			],
+		}),
 	],
 };
 
